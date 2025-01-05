@@ -46,13 +46,13 @@ def get_random_local_image():
     return None
 
 def main():
-    st.title("甲状腺肿瘤分类模型推理")
+    st.title("甲状腺肿瘤分类模型推理:1为异常,0为正常！")
     # 选项：从本地随机选择图像 或 上传图像
     option = st.radio("选择图像来源", ("从本地随机选择", "上传图像"))
     if option == "从本地随机选择":
         local_image = get_random_local_image()
         if local_image is not None:
-            st.image(local_image, caption="本地随机图像", use_column_width=True)
+            st.image(local_image, caption="本地随机图像", use_container_width=True)
             if st.button("对本地图像进行预测"):
                 prediction = predict(local_image)
                 st.write(f"预测结果：{prediction}")
@@ -60,7 +60,7 @@ def main():
         uploaded_file = st.file_uploader("请上传甲状腺超声图像", type=["jpg", "png", "jpeg"])
         if uploaded_file is not None:
             image = Image.open(uploaded_file).convert("RGB")
-            st.image(image, caption="上传的图像", use_column_width=True)
+            st.image(image, caption="上传的图像", use_container_width=True)
             if st.button("进行预测"):
                 prediction = predict(image)
                 st.write(f"预测结果：{prediction}")
