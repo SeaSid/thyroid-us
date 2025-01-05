@@ -6,10 +6,31 @@ import numpy as np
 from PIL import Image
 import os
 import random
+import tarfile
+
+def extract_tar_file(tar_path, extract_path):
+    """
+    解压 tar 文件到指定目录。
+
+    :param tar_path: tar 文件的路径
+    :param extract_path: 解压到的目录路径
+    """
+    # 确保解压目录存在
+    os.makedirs(extract_path, exist_ok=True)
+
+    # 打开 tar 文件
+    with tarfile.open(tar_path, 'r') as tar:
+        # 解压所有文件到指定目录
+        tar.extractall(path=extract_path)
+        print(f"文件已解压到 {extract_path}")
 
 
+
+tar_path = 'checkpoint.tar'  # tar 文件路径
+extract_path = '.'  # 解压到的目录
+extract_tar_file(tar_path, extract_path)
 # 加载训练好的模型和对应的图像处理器
-model_name_or_path = "ThyroidTumorClassification"
+model_name_or_path = "Cvt-finetuned-thyroid/checkpoint-180/"
 feature_extractor = ConvNextImageProcessor.from_pretrained(model_name_or_path)
 model = ConvNextForImageClassification.from_pretrained(model_name_or_path)
 model.eval()  # 设置模型为评估模式
